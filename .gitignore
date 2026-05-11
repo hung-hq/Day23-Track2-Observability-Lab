@@ -9,9 +9,8 @@ venv/
 # Lab artifacts (generated)
 benchmarks/*.csv
 benchmarks/*.json
-submission/screenshots/*.png
 submission/screenshots/*.jpg
-
+Day23-Track2-Observability-Lab\02-prometheus-grafana\alertmanager\alertmanager.yml
 # Local OS junk
 .DS_Store
 Thumbs.db
