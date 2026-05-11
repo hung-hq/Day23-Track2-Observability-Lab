@@ -1,31 +1,16 @@
 ## Windows pre-flight check (PowerShell).
-## Run via: pwsh windows-setup.ps1
-## Or:      powershell -ExecutionPolicy Bypass -File windows-setup.ps1
+## Run via: powershell -NoLogo -NoProfile -ExecutionPolicy Bypass -File windows-setup.ps1
+## Or:      powershell if you prefer the built-in Windows shell
 
 $ErrorActionPreference = "Stop"
 
 Write-Host "Checking Windows lab prerequisites..."
 
-# WSL2?
-$wsl = wsl --status 2>$null
-if ($LASTEXITCODE -ne 0) {
-    Write-Host "ERROR: WSL not installed. Run in admin PowerShell:" -ForegroundColor Red
-    Write-Host "  wsl --install"
-    exit 1
-}
-
-# Docker Desktop?
-$docker = Get-Process -Name "Docker Desktop" -ErrorAction SilentlyContinue
-if (-not $docker) {
-    Write-Host "ERROR: Docker Desktop not running. Start it from the Start menu." -ForegroundColor Red
-    exit 1
-}
-
 # Docker daemon reachable?
 docker version --format '{{.Server.Version}}' | Out-Null
 if ($LASTEXITCODE -ne 0) {
     Write-Host "ERROR: Docker daemon not reachable." -ForegroundColor Red
-    Write-Host "  Toggle Docker Desktop's WSL2 integration in: Settings > Resources > WSL Integration"
+    Write-Host "  Start Docker Desktop and wait until it reports that the engine is running." -ForegroundColor Red
     exit 1
 }
 
@@ -37,4 +22,4 @@ if ($LASTEXITCODE -ne 0) {
 }
 
 Write-Host "Windows setup OK." -ForegroundColor Green
-Write-Host "TIP: run 'make' commands from a WSL2 shell, not PowerShell." -ForegroundColor Yellow
+Write-Host "TIP: run 'powershell -NoLogo -NoProfile -ExecutionPolicy Bypass -File .\lab.ps1 <command>' from PowerShell or Windows Terminal." -ForegroundColor Yellow

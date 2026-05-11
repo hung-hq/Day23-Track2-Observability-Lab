@@ -1,6 +1,6 @@
 global:
   resolve_timeout: 1m
-  slack_api_url_file: ''   # we use webhook URL inline below
+  slack_api_url_file: ''   # webhook is defined directly in each receiver below
 
 route:
   receiver: 'slack-default'
@@ -20,8 +20,8 @@ route:
 receivers:
   - name: 'slack-default'
     slack_configs:
-      - api_url: '{{ env "SLACK_WEBHOOK_URL" }}'
-        channel: '#observability'
+      - api_url: 'https://hooks.slack.com/services/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'
+        channel: '#alerts'
         send_resolved: true
         title: '{{ if eq .Status "firing" }}🔥{{ else }}✅{{ end }} {{ .GroupLabels.alertname }}'
         text: |
@@ -33,8 +33,8 @@ receivers:
 
   - name: 'slack-critical'
     slack_configs:
-      - api_url: '{{ env "SLACK_WEBHOOK_URL" }}'
-        channel: '#oncall'
+      - api_url: 'https://hooks.slack.com/services/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'
+        channel: '#alerts'
         send_resolved: true
         title: '🚨 CRITICAL: {{ .GroupLabels.alertname }}'
         text: |

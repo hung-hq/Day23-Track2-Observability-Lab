@@ -113,9 +113,35 @@ services:
       - jaeger
     networks: [obs]
 
+  langfuse:
+    image: langfuse/langfuse:3.11.0
+    container_name: day23-langfuse
+    ports:
+      - "127.0.0.1:3001:3000"
+    environment:
+      NEXTAUTH_SECRET: ${LANGFUSE_SECRET:-supersecretkey-change-in-production}
+      NEXTAUTH_URL: http://localhost:3001
+      DATABASE_URL: ${LANGFUSE_DATABASE_URL:-postgresql://langfuse:langfuse@langfuse-postgres:5432/langfuse}
+      DIRECT_URL: ${LANGFUSE_DIRECT_URL:-postgresql://langfuse:langfuse@langfuse-postgres:5432/langfuse}
+    depends_on:
+      - langfuse-postgres
+    networks: [obs]
+
+  langfuse-postgres:
+    image: postgres:16-alpine
+    container_name: day23-langfuse-postgres
+    environment:
+      POSTGRES_USER: langfuse
+      POSTGRES_PASSWORD: langfuse
+      POSTGRES_DB: langfuse
+    volumes:
+      - langfuse-db:/var/lib/postgresql/data
+    networks: [obs]
+
 volumes:
   prom-data:
   grafana-data:
+  langfuse-db:
 
 networks:
   obs:

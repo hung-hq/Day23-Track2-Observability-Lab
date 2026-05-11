@@ -2,7 +2,7 @@
 
 **Core: 100 points · Bonus: 20 points (additive, not gating)**
 
-Grader runs `make verify` from a clean clone. Exit code 0 = all core checkpoints pass.
+Grader runs `powershell -NoLogo -NoProfile -ExecutionPolicy Bypass -File .\lab.ps1 verify` from a clean clone. Exit code 0 = all core checkpoints pass.
 
 ---
 
@@ -19,7 +19,7 @@ Grader runs `make verify` from a clean clone. Exit code 0 = all core checkpoints
 | 7 | 02 dashboards  | 5  | Overview dashboard 6 panels render with data after load | screenshot |
 | 8 | 02 dashboards  | 5  | SLO burn-rate dashboard populates burn rates                 | screenshot |
 | 9 | 02 dashboards  | 5  | Cost-and-tokens dashboard shows non-zero $/hr estimate       | screenshot |
-| 10 | 02 alerts     | 5  | `make alert` triggers `ServiceDown` in Alertmanager     | screenshot |
+| 10 | 02 alerts     | 5  | `powershell -NoLogo -NoProfile -ExecutionPolicy Bypass -File .\lab.ps1 alert` triggers `ServiceDown` in Alertmanager     | screenshot |
 | 11 | 02 alerts     | 5  | Slack receives both fire AND resolve messages           | screenshot |
 | 12 | 03 tracing    | 5  | Jaeger UI shows trace for `POST /predict` w/ 3 child spans | screenshot |
 | 13 | 03 tracing    | 5  | Span attributes follow GenAI semantic conventions       | screenshot of attrs panel |
@@ -46,9 +46,9 @@ Grader runs `make verify` from a clean clone. Exit code 0 = all core checkpoints
 
 ## Failing checkpoints
 
-If `make verify` exits non-zero:
+If `powershell -NoLogo -NoProfile -ExecutionPolicy Bypass -File .\lab.ps1 verify` exits non-zero:
 
-1. Check Compose stack health: `make smoke`
+1. Check Compose stack health: `powershell -NoLogo -NoProfile -ExecutionPolicy Bypass -File .\lab.ps1 smoke`
 2. Check the specific failing line in `verify.py` output
 3. Common issues:
    - Grafana not yet provisioned dashboards (wait 30s after first `up`)

@@ -1,9 +1,11 @@
 """FastAPI mock LLM inference service.
 
 Emits Prometheus metrics, OTLP traces, and structured JSON logs.
+Integrates with Langfuse for LLM-native observability.
 """
 from __future__ import annotations
 
+import os
 import time
 from contextlib import asynccontextmanager
 
@@ -24,6 +26,7 @@ from instrumentation import (
     tracer,
 )
 from inference import simulate_inference, simulate_gpu_load
+from langfuse_integration import langfuse_client, trace_inference
 
 
 @asynccontextmanager
@@ -68,6 +71,9 @@ def predict(req: PredictRequest) -> PredictResponse:
     start = time.perf_counter()
     span = tracer.start_span("predict")
     span.set_attribute("gen_ai.request.model", req.model)
+
+    # Track to Langfuse
+    trace_inference(prompt=req.prompt, model=req.model)
 
     try:
         if req.fail:
@@ -118,3 +124,5 @@ def predict(req: PredictRequest) -> PredictResponse:
     finally:
         INFERENCE_ACTIVE.dec()
         span.end()
+        # Flush Langfuse
+        langfuse_client.flush()

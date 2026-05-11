@@ -24,7 +24,7 @@ DAY19_QDRANT_URL=http://host.docker.internal:6333
 DAY20_LLAMACPP_METRICS_URL=http://host.docker.internal:8080/metrics
 
 # Then enable the prometheus.yml job stanzas (uncomment the blocks)
-make restart
+powershell -NoLogo -NoProfile -ExecutionPolicy Bypass -File ..\lab.ps1 restart
 ```
 
 If you don't have prior days running, the integration scripts will **stub** the metrics so the cross-day dashboard still renders.

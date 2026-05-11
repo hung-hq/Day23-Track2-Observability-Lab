@@ -23,17 +23,17 @@ You will:
 
 ## Quick start
 
-```bash
-git clone <your-fork> && cd Day23-Track2-Observability-Lab
-cp .env.example .env       # then edit SLACK_WEBHOOK_URL
-make setup                 # one-time: pulls 6 images, runs verify-docker.py
-make up                    # start the 7-service stack
-make smoke                 # verify all services healthy (~30s after up)
-make load                  # run 60s of locust load
-make alert                 # kill app → wait for fire → restore → wait for resolve
-make drift                 # run PSI/KL/KS on synthetic shifted data
-make verify                # rubric gate — exit 0 = ready to submit
-make down                  # stop (preserves data)
+```powershell
+git clone <your-fork> ; Set-Location Day23-Track2-Observability-Lab
+Copy-Item .env.example .env   # then edit SLACK_WEBHOOK_URL
+powershell -NoLogo -NoProfile -ExecutionPolicy Bypass -File .\lab.ps1 setup    # one-time: pulls images, runs verify-docker.py
+powershell -NoLogo -NoProfile -ExecutionPolicy Bypass -File .\lab.ps1 up       # start the 7-service stack
+powershell -NoLogo -NoProfile -ExecutionPolicy Bypass -File .\lab.ps1 smoke    # verify all services healthy (~30s after up)
+powershell -NoLogo -NoProfile -ExecutionPolicy Bypass -File .\lab.ps1 load     # run 60s of locust load
+powershell -NoLogo -NoProfile -ExecutionPolicy Bypass -File .\lab.ps1 alert    # kill app -> wait for fire -> restore -> wait for resolve
+powershell -NoLogo -NoProfile -ExecutionPolicy Bypass -File .\lab.ps1 drift    # run PSI/KL/KS on synthetic shifted data
+powershell -NoLogo -NoProfile -ExecutionPolicy Bypass -File .\lab.ps1 verify   # rubric gate — exit 0 = ready to submit
+powershell -NoLogo -NoProfile -ExecutionPolicy Bypass -File .\lab.ps1 down     # stop (preserves data)
 ```
 
 ## Track map
@@ -64,7 +64,7 @@ make down                  # stop (preserves data)
 | §7 Drift + LLM-native               | `04-drift-detection/` + `BONUS-llm-native-obs/` |
 | §8 Cost + Vendors                   | `02-prometheus-grafana/grafana/dashboards/cost-and-tokens.json` |
 | §9 Postmortems + Runbooks           | `submission/REFLECTION.md` (write your own) |
-| §10 Demo                            | `make demo` |
+| §10 Demo                            | `powershell -NoLogo -NoProfile -ExecutionPolicy Bypass -File .\lab.ps1 demo` |
 
 ## What's NOT in the lab (and why)
 
@@ -74,7 +74,7 @@ make down                  # stop (preserves data)
 
 ## Submission
 
-Public GitHub URL + commits in `submission/screenshots/` and `submission/REFLECTION.md`. Grader runs `make verify` expecting exit code 0.
+Public GitHub URL + commits in `submission/screenshots/` and `submission/REFLECTION.md`. Grader runs `powershell -NoLogo -NoProfile -ExecutionPolicy Bypass -File .\lab.ps1 verify` expecting exit code 0.
 
 ## Repo structure
 

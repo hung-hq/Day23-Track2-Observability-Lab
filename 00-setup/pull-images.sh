@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-## Pre-pull all Docker images so the first `make up` doesn't take 10 minutes.
+## Pre-pull all Docker images so the first PowerShell-native lab startup doesn't take 10 minutes.
 ## Idempotent — re-running is safe.
 
 set -euo pipefail

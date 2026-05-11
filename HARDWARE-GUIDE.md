@@ -17,7 +17,7 @@ The lab runs **7 containers** simultaneously. Most laptops can handle it, but pr
 
 - All 7 images publish `linux/arm64` natively. No emulation needed.
 - Docker Desktop default memory limit is **2 GB** — increase via Settings → Resources → Memory ≥ **6 GB**.
-- File watcher: `make logs` may consume CPU; switch off when idle.
+- File watcher: `powershell -NoLogo -NoProfile -ExecutionPolicy Bypass -File .\lab.ps1 logs` may consume CPU; switch off when idle.
 
 ### macOS (Intel)
 
@@ -30,15 +30,15 @@ The lab runs **7 containers** simultaneously. Most laptops can handle it, but pr
 - Confirm `docker` group membership: `groups | grep docker`. If absent: `sudo usermod -aG docker $USER && newgrp docker`.
 - Docker Compose v2 plugin: `docker compose version` — if missing, install via `apt-get install docker-compose-plugin`.
 
-### Windows + WSL2
+### Windows
 
-- **Run `make` commands from a WSL2 shell**, not PowerShell native. PowerShell doesn't have `make`, and Compose v2 path resolution has quirks.
-- WSL2 must be enabled: `wsl --status` should show `Default Version: 2`.
-- Docker Desktop must have **WSL2 integration** enabled for your distro.
+- Use PowerShell or Windows Terminal for the lab commands. Orchestration lives in `lab.ps1`.
+- Docker Desktop must be running with Compose v2 available: `docker compose version`.
+- If Docker is not reachable, start Docker Desktop and wait for the engine to report ready before running `powershell -NoLogo -NoProfile -ExecutionPolicy Bypass -File .\lab.ps1 setup`.
 
 ## Resource budget
 
-Approximate steady-state per service (after `make up`, no load):
+Approximate steady-state per service (after `powershell -NoLogo -NoProfile -ExecutionPolicy Bypass -File .\lab.ps1 up`, no load):
 
 | Service | RAM | CPU |
 |---|---|---|
@@ -51,7 +51,7 @@ Approximate steady-state per service (after `make up`, no load):
 | otel-collector           | 100 MB | 1% |
 | **Total steady-state**   | **~1 GB** | **~5-10%** of one core |
 
-Under `make load` (10 concurrent users):
+Under `powershell -NoLogo -NoProfile -ExecutionPolicy Bypass -File .\lab.ps1 load` (10 concurrent users):
 
 | Service | RAM | CPU |
 |---|---|---|
@@ -75,8 +75,8 @@ We considered a "Lite" path (no Docker), but observability is fundamentally a mu
 
 | Symptom | Cause | Fix |
 |---|---|---|
-| `make smoke` fails on grafana       | Provisioning not yet complete         | Wait 30s, retry |
-| `make alert` doesn't fire            | Alert needs ~90s of failure dwell     | Be patient (or shorten `for: 1m` in alert rules for the demo) |
+| `powershell -NoLogo -NoProfile -ExecutionPolicy Bypass -File .\lab.ps1 smoke` fails on grafana       | Provisioning not yet complete         | Wait 30s, retry |
+| `powershell -NoLogo -NoProfile -ExecutionPolicy Bypass -File .\lab.ps1 alert` doesn't fire            | Alert needs ~90s of failure dwell     | Be patient (or shorten `for: 1m` in alert rules for the demo) |
 | Slack receives nothing               | Webhook URL invalid                   | `curl -X POST $SLACK_WEBHOOK_URL -d '{"text":"test"}'` |
 | Out of memory                        | Docker Desktop limit too low          | Settings → Resources → Memory ≥ 6 GB |
 | Port already bound                   | Another process holds 3000/9090/etc.  | `lsof -i :3000` to find offender |

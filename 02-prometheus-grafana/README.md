@@ -26,9 +26,9 @@ load-test/
 ## What students do
 
 1. Open <http://localhost:3000> (admin/admin) — confirm 3 dashboards loaded
-2. `make load` — run Locust at 10 concurrent users for 60s
+2. `powershell -NoLogo -NoProfile -ExecutionPolicy Bypass -File ..\..\lab.ps1 load` — run Locust at 10 concurrent users for 60s
 3. Watch RPS panel rise, P99 stay below 500ms
-4. `make alert` — kill the app container; watch:
+4. `powershell -NoLogo -NoProfile -ExecutionPolicy Bypass -File ..\..\lab.ps1 alert` — kill the app container; watch:
    - `HighInferenceLatency` and `ServiceDown` fire in <http://localhost:9093>
    - Slack webhook receives the message (if configured)
    - Alert resolves automatically after the app is restored
@@ -37,7 +37,7 @@ load-test/
 ## Submission checkpoint (25 pts)
 
 - 5 pts: 3 dashboards loaded automatically (no manual import)
-- 5 pts: 6 essential panels render with non-zero data after `make load`
+- 5 pts: 6 essential panels render with non-zero data after `powershell -NoLogo -NoProfile -ExecutionPolicy Bypass -File ..\..\lab.ps1 load`
 - 5 pts: SLO burn-rate panel populates after ~15 min of load
-- 5 pts: at least 2 alert rules fire AND resolve in Alertmanager during `make alert`
+- 5 pts: at least 2 alert rules fire AND resolve in Alertmanager during `powershell -NoLogo -NoProfile -ExecutionPolicy Bypass -File ..\..\lab.ps1 alert`
 - 5 pts: Slack receives both fire + resolve messages (screenshot)
